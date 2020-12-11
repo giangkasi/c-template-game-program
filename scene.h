@@ -1,50 +1,42 @@
 #pragma once
+#include"DxLib.h"
+#include"chracter.h"
 
-class TitleScene : public BaseScene {
+class Data;
+
+class Scene {
+
+protected:
+    //Scene() {};
+    Scene(Data* const commonData) :
+        m_Data(commonData) {}
+
+
 public:
-    void Update();  
-    void Draw();      
-private:
-    
+    virtual Scene *Update() = 0;
+    virtual void Draw() const = 0;
+public :
+    Scene(const Scene&) = delete;
+    Scene& operator=(const Scene&) = delete;
+
+    virtual ~Scene() = default;
+
+protected:
+    Data* const m_Data;
+    template<typename T>
+    Scene* makeScene();
 };
 
-class GameScene : public BaseScene {
-public:
-    void Update();
-    void Draw();
-private:
 
-};
 
-class ResultScene : public BaseScene {
-public:
-    void Update();  
-    void Draw();     
-private:
-   
-};
 
-class BaseScene {
-public:
-    virtual void Update() = 0;
-    virtual void Draw() = 0;
-};
 
-class SceneManager {
-public:
-    enum SCENE {
-        TITLE,
-        GAME,
-        RESULT
-    };
-    static void ChangeScene(SCENE scene);
-    static void Update();
-    static void Render();
-private:
-    static BaseScene* m_pScene;
-};
 
-BaseScene* SceneManager::m_pScene = nullptr;      
+
+
+
+
+
 
 
 

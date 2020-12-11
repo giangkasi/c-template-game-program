@@ -1,6 +1,6 @@
 #pragma once
 
-#include"DxLib.h"
+#include"scene.h"
 
 #define CELL_WIDTH 40
 #define CELL_HEIGHT 40

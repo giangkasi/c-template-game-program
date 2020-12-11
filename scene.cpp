@@ -1,7 +1,10 @@
 #include "scene.h"
 
 
-#define TITLE_IMAGE  ",\\image/titleimage.png" 
+
+
+/*
+Scene* SceneManager::m_pScene = nullptr;
 
 void SceneManager::ChangeScene(SCENE scene) {
 
@@ -24,15 +27,10 @@ void SceneManager::ChangeScene(SCENE scene) {
     }
 
 }
+*/
 
-void SceneManager::Update() {
-    m_pScene->Update();         //現在のシーンの更新関数
-}
 
-void SceneManager::Render() {
-    m_pScene->Draw();           //現在のシーンの描画関数
-}
 
-void TitleScene::Draw() {
 
-}
+
+
