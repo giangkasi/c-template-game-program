@@ -43,8 +43,8 @@
 #define GAME_CHARA_KIND_YOKO	3		
 #define GAME_CHARA_KIND_TATE	4		
 
-#define GAME_CHARA_STARTX		1		
-#define GAME_CHARA_STARTY		1	
+#define GAME_CHARA_STARTX		10		
+#define GAME_CHARA_STARTY		10	
 #define GAME_CHARA_SPEED		2		
 
 #define GAME_PLAYER_LV_FIRST	1		
@@ -1425,6 +1425,7 @@ BOOL MY_MAP_READ_CSV_NAKA_KIND_SET(MAPDATA *mapdata)
 	mapdata->mapNGKind[Soeji++] = 481;	//’r
 	mapdata->mapNGKind[Soeji++] = 513;	//’r
 	mapdata->mapNGKind[Soeji++] = 545;	//’r
+	mapdata->mapNGKind[Soeji++] = 616;
 
 	mapdata->mapNGKind[Soeji++] = 1040;	//ŽR
 	mapdata->mapNGKind[Soeji++] = 1041;	//ŽR
@@ -1434,6 +1435,8 @@ BOOL MY_MAP_READ_CSV_NAKA_KIND_SET(MAPDATA *mapdata)
 	mapdata->mapNGKind[Soeji++] = 1073;	//ŽR
 	mapdata->mapNGKind[Soeji++] = 1074;	//ŽR
 	mapdata->mapNGKind[Soeji++] = 1075;	//ŽR
+
+	mapdata->mapNGKind[Soeji++] = 1128;
 
 	mapdata->mapNGKind[Soeji++] = 1137;	//‹“@•¬…¶
 	mapdata->mapNGKind[Soeji++] = 1138;	//‹“@•¬…‰E
@@ -1459,6 +1462,7 @@ BOOL MY_MAP_READ_CSV_NAKA_KIND_SET(MAPDATA *mapdata)
 	mapdata->mapNGKind[Soeji++] = 1258;	//•»
 	mapdata->mapNGKind[Soeji++] = 1259;	//•»
 	mapdata->mapNGKind[Soeji++] = 1294;	//•»
+	mapdata->mapNGKind[Soeji++] =839;
 
 	mapdata->mapNGKind[Soeji++] = 542;	//” 
 	mapdata->mapNGKind[Soeji++] = 543;	//” 
