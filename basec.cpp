@@ -197,7 +197,7 @@ struct STRUCT_CHARADATA
 	RECT rect_st;	
 	RECT atariRect;
 	
-
+	int resourceTupe;
 	
 
 	BOOL IsAlive;		//生きているか
@@ -290,9 +290,10 @@ BOOL MY_MAP_READ_CSV_SITA_KIND_SET(MAPDATA *);
 BOOL MY_MAP_READ_CSV_NUM(MAPDATA *, const char *, const char *);				
 
 
-int MY_LOAD_BACKGROUND(IMAGE *, const char *);										
+int MY_LOAD_BACKGROUND(IMAGE *, const char *);	
 
-								
+VOID MY_PLAYER_INTERRACT(int*x,int*y);
+VOID MY_PLAY_MAP_DRAW_INTER_BOX(VOID);
 
 BOOL MY_MAP_LOAD_BUNKATSU(MAPDATA *, int, int, int, int, int, const char *);	
 
@@ -302,11 +303,13 @@ VOID MY_PLAY_MAP_DRAW_ATARI(MAPDATA *, MAPDATA *, MAPDATA *);
 BOOL MY_CHARA_LOAD_BUNKATSU(CHARAIMAGE*, int, int, int, int, int, const char *);	
 
 BOOL MY_PLAYER_INIT(CHARADATA *, CHARAIMAGE, int *, int, int, int);	
-VOID MY_PLAY_PLAYER_DRAW(CHARADATA);								
+VOID MY_PLAY_PLAYER_DRAW(CHARADATA);	
+
+
 
 VOID MY_PLAY_PLAYER_OPERATION(VOID);								
 BOOL MY_PLAY_PLAYER_OPERATION_KEY(int *, int *);					
-VOID MY_PLAY_PLAYER_OPERATION_ENCOUNTER(int *, int *);				
+			
 
 VOID MY_SET_PLAYER_ATARI(CHARADATA *);	
 
@@ -568,11 +571,14 @@ VOID MY_GAME_PLAY_DRAW(VOID)
 	MY_PLAY_PLAYER_DRAW(Myplayer);
 
 
+
+
 	MY_PLAY_MAP_DRAW(mapData_ue);
+	
 
 	MY_PLAY_MAP_DRAW_ATARI(&mapData_ue, &mapData_naka, &mapData_sita);
 
-
+MY_PLAY_MAP_DRAW_INTER_BOX();
 	return;
 }
 
@@ -636,7 +642,7 @@ BOOL MY_PLAYER_INIT(CHARADATA *charadata, CHARAIMAGE charaimage, int *num, int x
 	
 	charadata->IsAlive = TRUE;			//生きている
 
-	
+	charadata->resourceTupe = 0;
 
 	charadata->gameEndKind = (int)GAME_END_KIND_NONE;
 
@@ -655,16 +661,40 @@ VOID MY_PLAY_PLAYER_OPERATION(VOID)
 
 	BOOL IsKeyDown = MY_PLAY_PLAYER_OPERATION_KEY(&retAtariX, &retAtariY);	//キーを押して操作しているか判断
 
-	
-
+	if (IsKeyDown == TRUE)	//キーを押したとき
+	{
+		MY_PLAYER_INTERRACT(&retAtariX, &retAtariY);			//敵出現判定
+	}
 
 	return;
+
+
+	
 }
+
+VOID MY_PLAYER_INTERRACT(int *x,int*y) 
+{
+	//DrawBox(0, 0, 32, 32, GetColor(255, 255, 0), TRUE);
+	//unsigned int col = (255, 255, 255);
+	//DrawString(10, 10 , "Hello C World!", col);
+
+	MY_SET_PLAYER_ATARI(&Myplayer);	//プレイヤーの当たり判定の領域を設定
+
+	//エンカウント判定が地面にあるとき
+	if (MY_CHECK_RECT_ATARI_CHARA_MAP_ATARIBASHO(Myplayer.atariRect, mapData_naka.rect_NG+10, x, y) == TRUE)
+	{
+		//if (AllKeyState[KEY_INPUT_RETURN] != 0) {
+			Myplayer.resourceTupe = mapData_naka.data[*(y)][*(x)];
+			
+		//}
+	}
+}
+
 //########## プレイヤーを操作する(キー操作)関数 ##########
 BOOL MY_PLAY_PLAYER_OPERATION_KEY(int *x, int *y)
 {
 	BOOL IsKeyDown = FALSE;		//キーを押されたか
-
+	
 	if (AllKeyState[KEY_INPUT_LEFT] != 0)	//左矢印キーが押されていた時
 	{
 		IsKeyDown = TRUE;	//キーを押された
@@ -1064,12 +1094,31 @@ VOID MY_PLAY_MAP_DRAW_ATARI(MAPDATA *map_ue, MAPDATA *map_naka, MAPDATA *map_sit
 			map_sita->rect_BT[tate][yoko].top = map_sita->rect_BT_First[tate][yoko].top - ScrollCntTate;
 			map_sita->rect_BT[tate][yoko].bottom = map_sita->rect_BT_First[tate][yoko].bottom - ScrollCntTate;
 
-
+		
 		}
 	}
 }
 
+VOID MY_PLAY_MAP_DRAW_INTER_BOX(VOID) {
+	unsigned int Cr = GetColor(255, 255, 255);
+	unsigned int Cl = GetColor(255, 255, 0);
+	if (AllKeyState[KEY_INPUT_RETURN] != 0) {
 
+		// 文字列の描画
+		
+		DrawBox(
+			30,30,100,100,
+			GetColor(0, 0, 0),
+			TRUE);
+
+		DrawBox(
+			30+4,30+4,100-4,100-4,
+			GetColor(255, 255, 255),
+			TRUE);
+		DrawString(30 + 8,
+			30 + 8, "tree", GetColor(0, 0, 0));
+	}
+}
 BOOL MY_GAME_SCENE_MOVE(int beforeScene)
 {
 
